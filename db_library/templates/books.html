@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>Код</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Колличество страниц</th>
+            <th>Год издания</th>
+        </thead>
+        <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.book_name }}</td>
+            <td>{{ book.fio_author }}</td>
+            <td>{{ book.number_of_pages }}</td>
+            <td>{{ book.year }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

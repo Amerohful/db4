@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>Код</th>
+            <th>Раздел</th>
+        </thead>
+        <tbody>
+            {% for section in sections %}
+                <tr>
+                    <td>{{ section.id }}</td>
+                    <td>{{ section.section_name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

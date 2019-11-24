@@ -1,0 +1,27 @@
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" style="margin: 0% 5% 0% 5%; border-radius: 0px 0px 10px 10px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Библиотека</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Главная</a></li>
+        </ul>
+    </div>
+</nav>
+<div style="margin: 70px"></div>
+{% block content %}{% endblock %}
+</body>
+
+</html>
