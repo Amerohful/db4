@@ -34,7 +34,19 @@ def tickets(request):
         })
 
 def readers(request):
-    return render(request, 'readers.html', {'readers': Reader.objects.all()})
+    if request.method == 'POST':
+        name = request.POST['name']
+        surname = request.POST['surname']
+        patronymic = request.POST['patronymic']
+        street = request.POST['street']
+        house_number = request.POST['house_number']
+        apartment_number = request.POST['apartment_number']
+        passport = request.POST['passport']
+        Reader(name=name, surname=surname, patronymic=patronymic, street=street, house_number=house_number,
+               apartment_number=apartment_number, passport=passport).save()
+        return render(request, 'readers.html', {'readers': Reader.objects.all()})
+    else:
+        return render(request, 'readers.html', {'readers': Reader.objects.all()})
 
 def report_about_count_book(request):
     pass
