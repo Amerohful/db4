@@ -1,5 +1,11 @@
+import io
+from django.http import FileResponse, Http404
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
+from django.db import connection
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from .models import Section, Reader, Book, Ticket
 
 
@@ -49,7 +55,30 @@ def readers(request):
         return render(request, 'readers.html', {'readers': Reader.objects.all()})
 
 def report_about_count_book(request):
-    pass
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter
+    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+
+    doc = SimpleDocTemplate("simple_table.pdf", pagesize=letter)
+    pdfmetrics.registerFont(TTFont('DejaVuSerif', 'DejaVuSerif.ttf'))
+    # container for the 'Flowable' objects
+    elements = []
+    cursor = connection.cursor()
+    cursor.execute('select r.name, count(b.book_name) from db_library_ticket t, db_library_reader r, db_library_book b '
+                   'where t.return_book is False and r.id = t.reader_id_id and b.id = t.book_id_id '
+                   'group by r.name, t.issue_date order by t.issue_date;')
+    reader = [x for x in enumerate(cursor.fetchall())]
+    tblstyle = TableStyle([('FONT', (0, 0), (-1, -1), 'DejaVuSerif', 12)])
+    data = reader
+    t = Table(data)
+    t.setStyle(tblstyle)
+    elements.append(t)
+    # write the document to disk
+    doc.build(elements)
+    try:
+        return FileResponse(open('simple_table.pdf', 'rb'), content_type='application/pdf')
+    except FileNotFoundError:
+        raise Http404()
 
 def report_about_reading_book(request):
     pass
