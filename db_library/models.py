@@ -37,3 +37,4 @@ class Ticket(models.Model):
     book_id = models.ForeignKey(Book, on_delete=models.PROTECT)
     issue_date = models.DateField()
     return_date = models.DateField()
+    return_book = models.BooleanField(default=False)

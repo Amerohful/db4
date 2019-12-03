@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <form class="form-inline" action="{%url 'report_about_reading_book' %}" method="POST">
+        <div class="form-group">
+            <div>
+                <button type="submit" class="btn btn-default">Прочитанные книги</button>
+            </div>
+        </div>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="reader">Читатель</label>
+            <select id="reader" class="form-control" name="reader_id">
+                {% for reader in readers %}
+                <option value="{{ reader.id }}">{{ reader.name }} {{ reader.surname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+    <a href="{%url 'report_about_count_book' %}" class="btn btn-default">Колличество книг на руках</a>
+
+</div>
+
+{% endblock %}
