@@ -12,14 +12,11 @@ from .models import Section, Reader, Book, Ticket
 def home(request):
     return render(request, 'home.html')
 
-
 def sections(request):
     return render(request, 'sections.html', {'sections': Section.objects.all()})
 
-
 def books(request):
     return render(request, 'books.html', {'books': Book.objects.all()})
-
 
 @csrf_protect
 def tickets(request):
@@ -42,7 +39,6 @@ def tickets(request):
             'books': Book.objects.all(),
         })
 
-
 def readers(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -58,13 +54,12 @@ def readers(request):
     else:
         return render(request, 'readers.html', {'readers': Reader.objects.all()})
 
-
 @csrf_protect
 def reports(request):
     return render(request, 'reports.html', {'readers': Reader.objects.all()})
 
-
 def report_about_count_book(request):
+    from reportlab.lib import colors
     from reportlab.lib.pagesizes import letter
     from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
@@ -80,7 +75,6 @@ def report_about_count_book(request):
                    'order by min(t.issue_date);')
     reader = [('Имя', 'Фамилия', 'Колличество книг на руках')] + [x[1] for x in enumerate(cursor.fetchall())]
     tblstyle = TableStyle([('FONT', (0, 0), (-1, -1), 'DejaVuSerif', 12)])
-    t = Table(reader)
     t.setStyle(tblstyle)
     elements.append(t)
     # write the document to disk
@@ -117,3 +111,4 @@ def report_about_reading_book(request):
         return FileResponse(open('simple_table.pdf', 'rb'), content_type='application/pdf')
     except FileNotFoundError:
         raise Http404()
+
